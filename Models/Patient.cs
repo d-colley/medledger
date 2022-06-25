@@ -15,7 +15,7 @@ namespace MedLedger.Models
         public string PatientName { get; set; }
         public DateTime PatientDOB { get; set; }
         public string PatientAddress { get; set; }
-        public PhoneAttribute PatientPhoneNumber { get; set; }
+        public int PatientPhoneNumber { get; set; }
         public string PatientInsuranceProvider { get; set; }
         public string Purpose { get; set; }
 
