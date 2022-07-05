@@ -17,7 +17,7 @@ namespace MedLedger.Data
         {
             modelBuilder.Entity<Clinic>().ToTable("Clinic");
             modelBuilder.Entity<Patient>().ToTable("Patient");
-            modelBuilder.Entity<Patient>().ToTable("Professional");
+            modelBuilder.Entity<Professional>().ToTable("Professional");
             modelBuilder.Entity<Team>().ToTable("Team");
             modelBuilder.Entity<User>().ToTable("User");
         }

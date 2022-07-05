@@ -4,14 +4,16 @@ using MedLedger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedLedger.Migrations
 {
     [DbContext(typeof(MedLedgerDBContext))]
-    partial class MedLedgerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220705033020_FixedScaffoldingController_0.0.3")]
+    partial class FixedScaffoldingController_003
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +74,7 @@ namespace MedLedger.Migrations
 
                     b.HasKey("PatientID");
 
-                    b.ToTable("Patient");
+                    b.ToTable("Professional");
                 });
 
             modelBuilder.Entity("MedLedger.Models.Professional", b =>
@@ -100,7 +102,7 @@ namespace MedLedger.Migrations
 
                     b.HasKey("ProfessionalID");
 
-                    b.ToTable("Professional");
+                    b.ToTable("Professionals");
                 });
 
             modelBuilder.Entity("MedLedger.Models.Team", b =>
