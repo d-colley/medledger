@@ -32,4 +32,5 @@ Apps that use ASP.NET Core Identity should also use HTTPS. To enable HTTPS see h
 ---
 Then use dotnet code generator
 dotnet-aspnet-codegenerator controller -name ClinicsController -api -m Clinic -dc MedLedgerDBContext -outDir Controllers
-
+dotnet-aspnet-codegenerator view ClinicCreate Create -m Clinic -dc MedLedgerDBContext -outDir Views/Clinic
+(Create, Edit, Delete, Details, List)
