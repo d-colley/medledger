@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>ProfessionalCreate</title>
+    <title>Edit</title>
 </head>
 <body>
 
@@ -17,8 +17,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="ProfessionalCreate">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProfessionalID" />
             <div class="form-group">
                 <label asp-for="ProfessionalName" class="control-label"></label>
                 <input asp-for="ProfessionalName" class="form-control" />
@@ -45,7 +46,7 @@
                 <span asp-validation-for="TeamID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
