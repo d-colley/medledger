@@ -7,13 +7,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedLedger.Models
 {
-    public class Team
+    public class Inventory
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TeamID { get; set; }
+        public int InventoryID { get; set; }
         [Required]
-        public string TeamName { get; set; }
+        public string InventoryName { get; set; }  
+        public int InventoryLevel { get; set; }
 
         [ForeignKey("Clinic")]
         public int ClinicID { get; set; }

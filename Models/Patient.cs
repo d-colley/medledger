@@ -10,12 +10,14 @@ namespace MedLedger.Models
     public class Patient
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PatientID { get; set; }
         [Required]
         public string PatientName { get; set; }
         public DateTime PatientDOB { get; set; }
         public string PatientAddress { get; set; }
         public int PatientPhoneNumber { get; set; }
+        public string PatientEmail { get; set; }
         public string PatientInsuranceProvider { get; set; }
         public string Purpose { get; set; }
 

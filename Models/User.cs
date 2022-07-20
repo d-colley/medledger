@@ -11,6 +11,7 @@ namespace MedLedger.Models
     public class User : IdentityUser
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserID { get; set; }
         [Required]
         public string FirstName { get; set; }

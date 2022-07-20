@@ -4,50 +4,22 @@ using MedLedger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedLedger.Migrations
 {
     [DbContext(typeof(MedLedgerDBContext))]
-    partial class MedLedgerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220720045130_AddingInventoryAppointmentTables_0.0.6")]
+    partial class AddingInventoryAppointmentTables_006
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("MedLedger.Models.Appointment", b =>
-                {
-                    b.Property<int>("AppointmentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("AppointmentDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AppointmentService")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ClinicID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatientID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProfessionalID")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppointmentID");
-
-                    b.ToTable("Appointments");
-                });
 
             modelBuilder.Entity("MedLedger.Models.Clinic", b =>
                 {
@@ -69,28 +41,6 @@ namespace MedLedger.Migrations
                     b.HasKey("ClinicID");
 
                     b.ToTable("Clinic");
-                });
-
-            modelBuilder.Entity("MedLedger.Models.Inventory", b =>
-                {
-                    b.Property<int>("InventoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClinicID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InventoryLevel")
-                        .HasColumnType("int");
-
-                    b.Property<string>("InventoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("InventoryID");
-
-                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("MedLedger.Models.Patient", b =>
@@ -143,14 +93,11 @@ namespace MedLedger.Migrations
                     b.Property<string>("ProfessionalEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProfessionalExpYears")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProfessionalName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfessionalSpecialty")
+                    b.Property<string>("Specialty")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeamID")

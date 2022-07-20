@@ -27,6 +27,9 @@ The generated database code requires Entity Framework Core Migrations. Run the f
 1. Add-Migration CreateIdentitySchema
 2. Update-Database
 
+(dotnet ef migrations add AddingInventoryAppointmentTables_0.0.1 -c MedLedgerDBContext)
+(dotnet ef database update -c MedLedgerDBContext)
+
 Apps that use ASP.NET Core Identity should also use HTTPS. To enable HTTPS see https://go.microsoft.com/fwlink/?linkid=848054.
 
 ---

@@ -7,7 +7,9 @@ namespace MedLedger.Data
     {
         public MedLedgerDBContext(DbContextOptions<MedLedgerDBContext> options) : base(options) { }
 
+        public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Professional> Professionals { get; set; }
         public DbSet<Team> Teams { get; set; }

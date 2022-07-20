@@ -10,22 +10,22 @@ using MedLedger.Models;
 
 namespace MedLedger.Controllers
 {
-    public class UserController : Controller
+    public class ProfessionalsController : Controller
     {
         private readonly MedLedgerDBContext _context;
 
-        public UserController(MedLedgerDBContext context)
+        public ProfessionalsController(MedLedgerDBContext context)
         {
             _context = context;
         }
 
-        // GET: User
+        // GET: Professionals
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.Professionals.ToListAsync());
         }
 
-        // GET: User/Details/5
+        // GET: Professionals/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace MedLedger.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserID == id);
-            if (user == null)
+            var professional = await _context.Professionals
+                .FirstOrDefaultAsync(m => m.ProfessionalID == id);
+            if (professional == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(professional);
         }
 
-        // GET: User/Create
+        // GET: Professionals/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: Professionals/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,FirstName,LastName,UserRassword,UserRole,Created,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] User user)
+        public async Task<IActionResult> Create([Bind("ProfessionalID,ProfessionalName,ProfessionalEmail,ProfessionalSpecialty,ProfessionalExpYears,UserID,ClinicID,TeamID")] Professional professional)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(professional);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(professional);
         }
 
-        // GET: User/Edit/5
+        // GET: Professionals/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace MedLedger.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var professional = await _context.Professionals.FindAsync(id);
+            if (professional == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(professional);
         }
 
-        // POST: User/Edit/5
+        // POST: Professionals/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,FirstName,LastName,UserRassword,UserRole,Created,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("ProfessionalID,ProfessionalName,ProfessionalEmail,ProfessionalSpecialty,ProfessionalExpYears,UserID,ClinicID,TeamID")] Professional professional)
         {
-            if (id != user.UserID)
+            if (id != professional.ProfessionalID)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace MedLedger.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(professional);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.UserID))
+                    if (!ProfessionalExists(professional.ProfessionalID))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace MedLedger.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(professional);
         }
 
-        // GET: User/Delete/5
+        // GET: Professionals/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace MedLedger.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserID == id);
-            if (user == null)
+            var professional = await _context.Professionals
+                .FirstOrDefaultAsync(m => m.ProfessionalID == id);
+            if (professional == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(professional);
         }
 
-        // POST: User/Delete/5
+        // POST: Professionals/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            var professional = await _context.Professionals.FindAsync(id);
+            _context.Professionals.Remove(professional);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool ProfessionalExists(int id)
         {
-            return _context.Users.Any(e => e.UserID == id);
+            return _context.Professionals.Any(e => e.ProfessionalID == id);
         }
     }
 }

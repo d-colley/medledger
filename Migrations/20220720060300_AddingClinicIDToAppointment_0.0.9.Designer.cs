@@ -4,14 +4,16 @@ using MedLedger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedLedger.Migrations
 {
     [DbContext(typeof(MedLedgerDBContext))]
-    partial class MedLedgerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220720060300_AddingClinicIDToAppointment_0.0.9")]
+    partial class AddingClinicIDToAppointment_009
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,14 +145,11 @@ namespace MedLedger.Migrations
                     b.Property<string>("ProfessionalEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProfessionalExpYears")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProfessionalName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfessionalSpecialty")
+                    b.Property<string>("Specialty")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeamID")

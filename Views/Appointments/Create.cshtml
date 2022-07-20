@@ -1,0 +1,64 @@
+@model MedLedger.Models.Appointment
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+
+<h4>Appointment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AppointmentDate" class="control-label"></label>
+                <input asp-for="AppointmentDate" class="form-control" />
+                <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppointmentService" class="control-label"></label>
+                <input asp-for="AppointmentService" class="form-control" />
+                <span asp-validation-for="AppointmentService" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppointmentDescription" class="control-label"></label>
+                <input asp-for="AppointmentDescription" class="form-control" />
+                <span asp-validation-for="AppointmentDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfessionalID" class="control-label"></label>
+                <input asp-for="ProfessionalID" class="form-control" />
+                <span asp-validation-for="ProfessionalID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PatientID" class="control-label"></label>
+                <input asp-for="PatientID" class="form-control" />
+                <span asp-validation-for="PatientID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClinicID" class="control-label"></label>
+                <input asp-for="ClinicID" class="form-control" />
+                <span asp-validation-for="ClinicID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>

@@ -10,22 +10,22 @@ using MedLedger.Models;
 
 namespace MedLedger.Controllers
 {
-    public class PatientController : Controller
+    public class UsersController : Controller
     {
         private readonly MedLedgerDBContext _context;
 
-        public PatientController(MedLedgerDBContext context)
+        public UsersController(MedLedgerDBContext context)
         {
             _context = context;
         }
 
-        // GET: Patient
+        // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Patients.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: Patient/Details/5
+        // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace MedLedger.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patients
-                .FirstOrDefaultAsync(m => m.PatientID == id);
-            if (patient == null)
+            var user = await _context.Users
+                .FirstOrDefaultAsync(m => m.UserID == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(patient);
+            return View(user);
         }
 
-        // GET: Patient/Create
+        // GET: Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Patient/Create
+        // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PatientID,PatientName,PatientDOB,PatientAddress,PatientPhoneNumber,PatientInsuranceProvider,Purpose,UserID")] Patient patient)
+        public async Task<IActionResult> Create([Bind("UserID,FirstName,LastName,UserRassword,UserRole,Created,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] User user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(patient);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            return View(user);
         }
 
-        // GET: Patient/Edit/5
+        // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace MedLedger.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(patient);
+            return View(user);
         }
 
-        // POST: Patient/Edit/5
+        // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PatientID,PatientName,PatientDOB,PatientAddress,PatientPhoneNumber,PatientInsuranceProvider,Purpose,UserID")] Patient patient)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,FirstName,LastName,UserRassword,UserRole,Created,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] User user)
         {
-            if (id != patient.PatientID)
+            if (id != user.UserID)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace MedLedger.Controllers
             {
                 try
                 {
-                    _context.Update(patient);
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PatientExists(patient.PatientID))
+                    if (!UserExists(user.UserID))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace MedLedger.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            return View(user);
         }
 
-        // GET: Patient/Delete/5
+        // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace MedLedger.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patients
-                .FirstOrDefaultAsync(m => m.PatientID == id);
-            if (patient == null)
+            var user = await _context.Users
+                .FirstOrDefaultAsync(m => m.UserID == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(patient);
+            return View(user);
         }
 
-        // POST: Patient/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var patient = await _context.Patients.FindAsync(id);
-            _context.Patients.Remove(patient);
+            var user = await _context.Users.FindAsync(id);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PatientExists(int id)
+        private bool UserExists(int id)
         {
-            return _context.Patients.Any(e => e.PatientID == id);
+            return _context.Users.Any(e => e.UserID == id);
         }
     }
 }
