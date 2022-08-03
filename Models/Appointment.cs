@@ -25,5 +25,8 @@ namespace MedLedger.Models
 
         [ForeignKey("Clinic")]
         public int ClinicID { get; set; }
+
+        [ForeignKey("ServiceSchedule")]
+        public int ServiceID { get; set; }
     }
 }

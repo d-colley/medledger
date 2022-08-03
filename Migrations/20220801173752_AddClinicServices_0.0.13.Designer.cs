@@ -4,14 +4,16 @@ using MedLedger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedLedger.Migrations
 {
     [DbContext(typeof(MedLedgerDBContext))]
-    partial class MedLedgerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220801173752_AddClinicServices_0.0.13")]
+    partial class AddClinicServices_0013
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,9 +44,6 @@ namespace MedLedger.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProfessionalID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceID")
                         .HasColumnType("int");
 
                     b.HasKey("AppointmentID");
@@ -168,46 +167,6 @@ namespace MedLedger.Migrations
                     b.HasKey("ProfessionalID");
 
                     b.ToTable("Professional");
-                });
-
-            modelBuilder.Entity("MedLedger.Models.ServiceSchedule", b =>
-                {
-                    b.Property<int>("ServiceID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClinicID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CurrentAppointments")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CurrentTimeAvailable")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxAppointments")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxTimeAvailable")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ServicEndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ServiceDays")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ServiceName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ServiceStartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ServiceID");
-
-                    b.ToTable("ServiceSchedule");
                 });
 
             modelBuilder.Entity("MedLedger.Models.Team", b =>

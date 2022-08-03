@@ -1,17 +1,8 @@
 @model MedLedger.Models.Professional
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Professional Details";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
 
 <div>
     <h4>Professional</h4>
@@ -65,5 +56,3 @@
     <a asp-action="Edit" asp-route-id="@Model.ProfessionalID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
-</body>
-</html>

@@ -56,6 +56,22 @@ namespace MedLedger.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AppointmentID,AppointmentDate,AppointmentService,AppointmentDescription,ProfessionalID,PatientID,ClinicID")] Appointment appointment)
         {
+            //resource scheduling algortihm - https://journals.sagepub.com/doi/pdf/10.1177/1460458220905380
+            //using Takt time to manage resources, from there we  can manage appointments
+            //Low Takt time = low demand, high Takt = high demand
+
+            //Takt time = eff avail. time in day/# of patients serviced in day
+            //if two clinics are the same Takt time, we use location
+
+            //service time (standard service time per health region)(based on procedure)
+
+            //r - units of resources required
+            //r = service time/Takt time (approx to nearest whole number)
+
+            //Run this function for the various health centres
+
+            //choose the one with the units of resources or higher with service needed(could throw in location) - ignore
+
             if (ModelState.IsValid)
             {
                 _context.Add(appointment);
@@ -148,6 +164,11 @@ namespace MedLedger.Controllers
         private bool AppointmentExists(int id)
         {
             return _context.Appointments.Any(e => e.AppointmentID == id);
+        }
+
+        private int TaktTimeEngine()
+        {
+            return 0;
         }
     }
 }

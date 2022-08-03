@@ -1,0 +1,61 @@
+@model IEnumerable<MedLedger.Models.ServiceSchedule>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceDays)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceStartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServicEndTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceDays)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceStartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicEndTime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ServiceID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ServiceID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ServiceID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>

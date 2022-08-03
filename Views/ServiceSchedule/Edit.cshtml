@@ -1,0 +1,55 @@
+@model MedLedger.Models.ServiceSchedule
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<h4>ServiceSchedule</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ServiceID" />
+            <div class="form-group">
+                <label asp-for="ServiceName" class="control-label"></label>
+                <input asp-for="ServiceName" class="form-control" />
+                <span asp-validation-for="ServiceName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServiceDays" class="control-label"></label>
+                <input asp-for="ServiceDays" class="form-control" />
+                <span asp-validation-for="ServiceDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServiceStartTime" class="control-label"></label>
+                <input asp-for="ServiceStartTime" class="form-control" />
+                <span asp-validation-for="ServiceStartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServicEndTime" class="control-label"></label>
+                <input asp-for="ServicEndTime" class="form-control" />
+                <span asp-validation-for="ServicEndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>

@@ -1,17 +1,9 @@
 @model IEnumerable<MedLedger.Models.Professional>
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Professionals";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -75,5 +67,11 @@
 }
     </tbody>
 </table>
-</body>
-</html>
+
+<div>
+    Scheduling Recommendations:
+    <div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Suggest</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Schedule</button>
+    </div>
+</div>

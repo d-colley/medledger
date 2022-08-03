@@ -1,17 +1,10 @@
 @model MedLedger.Models.Appointment
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Appointment Details";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
 
 <div>
     <h4>Appointment</h4>
@@ -59,5 +52,4 @@
     <a asp-action="Edit" asp-route-id="@Model.AppointmentID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
-</body>
-</html>
+

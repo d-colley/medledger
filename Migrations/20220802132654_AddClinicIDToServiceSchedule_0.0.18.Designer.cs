@@ -4,14 +4,16 @@ using MedLedger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedLedger.Migrations
 {
     [DbContext(typeof(MedLedgerDBContext))]
-    partial class MedLedgerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220802132654_AddClinicIDToServiceSchedule_0.0.18")]
+    partial class AddClinicIDToServiceSchedule_0018
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,13 +185,7 @@ namespace MedLedger.Migrations
                     b.Property<int>("CurrentAppointments")
                         .HasColumnType("int");
 
-                    b.Property<int>("CurrentTimeAvailable")
-                        .HasColumnType("int");
-
                     b.Property<int>("MaxAppointments")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxTimeAvailable")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ServicEndTime")
