@@ -96,6 +96,7 @@ namespace MedLedger.Controllers
                 else if (bestTaktTime == TaktTimeEngine(item.ServiceID))
                 {
                     Console.WriteLine("--Use location here--");
+                    //compare resources
                     //compare locations and choose the best one
                 }
             }
@@ -223,6 +224,33 @@ namespace MedLedger.Controllers
             
 
             return TaktTime;
+        }
+
+        private int ResourcesEngine(int serviceID, int takTIme)
+        {
+            int serviceTime = 0;
+
+            var clinicService = _context.ServiceSchedule.Find(serviceID);
+            serviceTime = clinicService.ServiceTime;
+
+            //in order to reach Takt time, we need r units of resources
+            int r = serviceTime / takTIme;
+
+            
+            //get r
+            //check resources
+
+            //if resources <= r
+            //recalculate for time based on resources
+            //show actual time 
+
+            //if resources >= r
+            //use current time
+
+            //store in DB(serviceschedule)
+
+            
+            return 0;
         }
     }
 }
