@@ -18,5 +18,7 @@ namespace MedLedger.Models
 
         [ForeignKey("Clinic")]
         public int ClinicID { get; set; }
+
+        public int InventoryUnit { get; set; }
     }
 }

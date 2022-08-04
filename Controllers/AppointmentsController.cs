@@ -69,6 +69,9 @@ namespace MedLedger.Controllers
             //TaktTime = availableTime / patientsToBeServiced;
 
             int initialTaktTime = TaktTimeEngine(appointment.ServiceID);
+
+            int initialResources = ResourcesEngine(appointment.ServiceID, initialTaktTime);
+
              
 
             int bestTaktTime = initialTaktTime;
@@ -87,7 +90,7 @@ namespace MedLedger.Controllers
             foreach(var item in _context.ServiceSchedules)
             {
                 Console.WriteLine(item.ServiceID);
-                if (bestTaktTime < TaktTimeEngine(item.ServiceID)) //initial demand is higher
+                if (bestTaktTime < TaktTimeEngine(item.ServiceID)) //new item has higher processing time
                 {
                     bestTaktTimeClinicId = item.ClinicID;
                     bestTaktTime = TaktTimeEngine(item.ServiceID);
@@ -235,12 +238,18 @@ namespace MedLedger.Controllers
 
             //in order to reach Takt time, we need r units of resources
             int r = serviceTime / takTIme;
-
-            
-            //get r
             //check resources
-
+            int actualResources = InventoryCounter(clinicService.ClinicID,serviceID);
+            
             //if resources <= r
+            if (actualResources >= r)
+            {
+                Console.WriteLine("actual greater than r");
+            }
+            if(actualResources < r)
+            {
+                Console.WriteLine("actual less than effecient resource");
+            }
             //recalculate for time based on resources
             //show actual time 
 
@@ -250,7 +259,33 @@ namespace MedLedger.Controllers
             //store in DB(serviceschedule)
 
             
-            return 0;
+            return r;
+        }
+
+        private void InventoryEngine()
+        {
+
+        }
+
+        private int InventoryCounter(int clinicID, int serviceID)
+        {
+            var schedule = _context.ServiceSchedules.Where(t => t.ServiceID == serviceID).FirstOrDefault();
+
+            var resourceList = schedule.ResourceList;
+
+            var totalResourceCount = 0;
+            var totalResourceElements = 0;
+
+            String[] resourceArray = resourceList.Split(",");
+            foreach(var item in resourceArray)
+            {
+                totalResourceCount += _context.Inventories.Where(t => t.ClinicID == clinicID && t.InventoryName == item).Count();
+
+                totalResourceElements++;
+            }
+            
+            int trueResources = totalResourceCount/totalResourceElements;
+            return trueResources;
         }
     }
 }

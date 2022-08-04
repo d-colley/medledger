@@ -4,14 +4,16 @@ using MedLedger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedLedger.Migrations
 {
     [DbContext(typeof(MedLedgerDBContext))]
-    partial class MedLedgerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220804165150_AddingTaktTimeandResourcesMeasuresaandResourceUnits_0.0.21")]
+    partial class AddingTaktTimeandResourcesMeasuresaandResourceUnits_0021
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,9 +208,6 @@ namespace MedLedger.Migrations
 
                     b.Property<int>("MaxTimeAvailable")
                         .HasColumnType("int");
-
-                    b.Property<string>("ResourceList")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ServicEndTime")
                         .HasColumnType("datetime2");

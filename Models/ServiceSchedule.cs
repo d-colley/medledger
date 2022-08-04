@@ -27,5 +27,15 @@ namespace MedLedger.Models
         public int MaxAppointments{ get; set; }
         public int CurrentAppointments{ get; set; }
         public int ServiceTime { get; set; }
+
+        public int EfficientTaktTime { get; set; }
+
+        public int EfficientResources { get; set; }
+
+        public int ActualTaktTime { get; set; }
+
+        public int ActualResources { get; set; }
+        public string ResourceList { get; set; }
+
     }
 }
