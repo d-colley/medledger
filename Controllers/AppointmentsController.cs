@@ -54,13 +54,26 @@ namespace MedLedger.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentID,AppointmentDate,AppointmentService,AppointmentDescription,ProfessionalID,PatientID,ClinicID")] Appointment appointment)
+        public async Task<IActionResult> Create([Bind("AppointmentID,AppointmentDate,AppointmentService,AppointmentDescription,ProfessionalID,PatientID,ClinicID,ServiceID")] Appointment appointment)
         {
             //resource scheduling algortihm - https://journals.sagepub.com/doi/pdf/10.1177/1460458220905380
             //using Takt time to manage resources, from there we  can manage appointments
             //Low Takt time = low demand, high Takt = high demand
 
             //Takt time = eff avail. time in day/# of patients serviced in day
+            //int availableTime = 0;
+            //int patientsToBeServiced = 0;
+
+            //int TaktTime = 0;
+
+            //TaktTime = availableTime / patientsToBeServiced;
+
+            int initialTaktTime = TaktTimeEngine(appointment.ServiceID);
+             
+
+            int bestTaktTime = initialTaktTime;
+            int bestTaktTimeClinicId = appointment.ServiceID;
+
             //if two clinics are the same Takt time, we use location
 
             //service time (standard service time per health region)(based on procedure)
@@ -69,8 +82,27 @@ namespace MedLedger.Controllers
             //r = service time/Takt time (approx to nearest whole number)
 
             //Run this function for the various health centres
+            //for (int i=0; i< _context.Clinics.Count();i++)
+            var schedule = _context.ServiceSchedules.Where(t=> t.ServiceName == appointment.AppointmentService).FirstOrDefault();
+            foreach(var item in _context.ServiceSchedules)
+            {
+                Console.WriteLine(item.ServiceID);
+                if (bestTaktTime > TaktTimeEngine(item.ServiceID)) //initial demand is higher
+                {
+                    bestTaktTimeClinicId = item.ClinicID;
+                    bestTaktTime = TaktTimeEngine(item.ServiceID);
+                }
 
+                else if (bestTaktTime == TaktTimeEngine(item.ServiceID))
+                {
+                    Console.WriteLine("--Use location here--");
+                    //compare locations and choose the best one
+                }
+            }
             //choose the one with the units of resources or higher with service needed(could throw in location) - ignore
+
+            //**return best clinic along with best time to modal. if yes, replace appointmentschedule and clinic. if no, keep the appointment**
+            
 
             if (ModelState.IsValid)
             {
@@ -102,7 +134,7 @@ namespace MedLedger.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointmentID,AppointmentDate,AppointmentService,AppointmentDescription,ProfessionalID,PatientID,ClinicID")] Appointment appointment)
+        public async Task<IActionResult> Edit(int id, [Bind("AppointmentID,AppointmentDate,AppointmentService,AppointmentDescription,ProfessionalID,PatientID,ClinicID,ServiceID")] Appointment appointment)
         {
             if (id != appointment.AppointmentID)
             {
@@ -166,9 +198,31 @@ namespace MedLedger.Controllers
             return _context.Appointments.Any(e => e.AppointmentID == id);
         }
 
-        private int TaktTimeEngine()
+        private int TaktTimeEngine(int serviceID)
         {
-            return 0;
+            int availableTime = 0;
+            int patientsToBeServiced = 0;
+
+            var clinicService = _context.ServiceSchedule.Find(serviceID);
+
+            availableTime = clinicService.CurrentTimeAvailable;
+            patientsToBeServiced = clinicService.CurrentAppointments;
+
+
+            int TaktTime = 0;
+
+            if (patientsToBeServiced == 0)
+            {
+                TaktTime = 0;
+            }
+
+            else
+            {
+                TaktTime = availableTime / patientsToBeServiced;
+            }
+            
+
+            return TaktTime;
         }
     }
 }
