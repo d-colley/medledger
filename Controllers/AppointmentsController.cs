@@ -87,7 +87,7 @@ namespace MedLedger.Controllers
             foreach(var item in _context.ServiceSchedules)
             {
                 Console.WriteLine(item.ServiceID);
-                if (bestTaktTime > TaktTimeEngine(item.ServiceID)) //initial demand is higher
+                if (bestTaktTime < TaktTimeEngine(item.ServiceID)) //initial demand is higher
                 {
                     bestTaktTimeClinicId = item.ClinicID;
                     bestTaktTime = TaktTimeEngine(item.ServiceID);
@@ -213,7 +213,7 @@ namespace MedLedger.Controllers
 
             if (patientsToBeServiced == 0)
             {
-                TaktTime = 0;
+                TaktTime = availableTime;
             }
 
             else
