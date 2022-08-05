@@ -74,7 +74,8 @@ namespace MedLedger.Controllers
              
 
             int bestTaktTime = initialTaktTime;
-            int bestTaktTimeClinicId = appointment.ServiceID;
+            int bestTaktTimeClinicId = appointment.ClinicID;
+            int bestTaktTimeServiceId = appointment.ServiceID;
             int actualResources = InventoryCounter(appointment.ClinicID, appointment.ServiceID);
             //if two clinics are the same Takt time, we use location
 
@@ -86,17 +87,20 @@ namespace MedLedger.Controllers
             //Run this function for the various health centres
             //for (int i=0; i< _context.Clinics.Count();i++)
             var schedules = _context.ServiceSchedules.Where(t=> t.ServiceName == appointment.AppointmentService).ToList();
+            schedules.RemoveAll(t => t.ClinicID == appointment.ClinicID);
             int itemEfficientResources = 0;
             int itemActualResources = 0;
 
             //foreach (var item in _context.ServiceSchedules.ToList())
             foreach (var item in schedules)
             {
-                Console.WriteLine(item.ServiceID);
+                Console.WriteLine("Iteration Item clinic ID: " + item.ClinicID);
+                Console.WriteLine("Iteration Item service ID: " + item.ServiceID);
                 if (bestTaktTime < TaktTimeEngine(item.ServiceID)) //new item has higher processing time
                 {
                     bestTaktTimeClinicId = item.ClinicID;
                     bestTaktTime = TaktTimeEngine(item.ServiceID);
+                    bestTaktTimeServiceId = item.ServiceID;
                 }
 
                 else if (bestTaktTime == TaktTimeEngine(item.ServiceID))
@@ -107,28 +111,35 @@ namespace MedLedger.Controllers
                     if (initialEfficientResources < actualResources && itemEfficientResources < itemActualResources)
                     {
                         Console.WriteLine("preferred location");
+                        //ViewBag.Test = "Keep it at Clinic " + bestTaktTimeClinicId;
                     }
                     else if(initialEfficientResources == actualResources && itemEfficientResources == itemActualResources)
                     {
                         Console.WriteLine("--compare location here--"); //www.aspsnippets.com/Articles/ASPNet-Core-Implement-Google-Maps-from-Database-in-Net-Core.aspx
                         //send to view for comparison
-                        ViewBag.Test = "Initial:" + appointment.ServiceID + " " + "Suggest:" + item.ServiceID;
+                        ViewBag.Test2 = "Initial:" + bestTaktTimeClinicId + " " + "Suggest:" + item.ServiceID + " Choose your location.";
                     }
                     else if (initialEfficientResources > actualResources && itemEfficientResources <= itemActualResources)
                     {
                         Console.WriteLine("--choose item--");
                         bestTaktTimeClinicId = item.ClinicID;
+                        bestTaktTimeServiceId= item.ServiceID;
+                        //ViewBag.Test = "New Suggestion: " + bestTaktTimeClinicId;
+
                     }
                     else if (initialEfficientResources <= actualResources && itemEfficientResources > itemActualResources)
                     {
                         Console.WriteLine("--choose initial--");
-                        
+                        //ViewBag.Test = "Keep it at Clinic " + bestTaktTimeClinicId;
                     }
                 }
+                ViewBag.Test = "Suggested: " + bestTaktTimeClinicId;
+
             }
 
+            ViewBag.Test = "Suggested: " + bestTaktTimeClinicId;
             //**return best clinic along with best time to modal. if yes, replace appointmentschedule and clinic. if no, keep the appointment**
-            
+
             //-------- For DB Storage ------------------
             //if (ModelState.IsValid)
             //{
