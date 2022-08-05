@@ -58,7 +58,6 @@ namespace MedLedger.Controllers
         {
             //resource scheduling algortihm - https://journals.sagepub.com/doi/pdf/10.1177/1460458220905380
             //using Takt time to manage resources, from there we  can manage appointments
-            //Low Takt time = low demand, high Takt = high demand
 
             //Takt time = eff avail. time in day/# of patients serviced in day
             //int availableTime = 0;
@@ -86,8 +85,12 @@ namespace MedLedger.Controllers
 
             //Run this function for the various health centres
             //for (int i=0; i< _context.Clinics.Count();i++)
-            var schedule = _context.ServiceSchedules.Where(t=> t.ServiceName == appointment.AppointmentService);
-            foreach(var item in _context.ServiceSchedules)
+            var schedules = _context.ServiceSchedules.Where(t=> t.ServiceName == appointment.AppointmentService).ToList();
+            int itemEfficientResources = 0;
+            int itemActualResources = 0;
+
+            //foreach (var item in _context.ServiceSchedules.ToList())
+            foreach (var item in schedules)
             {
                 Console.WriteLine(item.ServiceID);
                 if (bestTaktTime < TaktTimeEngine(item.ServiceID)) //new item has higher processing time
@@ -99,38 +102,40 @@ namespace MedLedger.Controllers
                 else if (bestTaktTime == TaktTimeEngine(item.ServiceID))
                 {
                     //resource count check
-                    int itemEfficientResources = ResourcesEngine(item.ServiceID, TaktTimeEngine(item.ServiceID));
-                    int itemActualResources = InventoryCounter(item.ClinicID,item.ServiceID);
+                    itemEfficientResources = ResourcesEngine(item.ServiceID, TaktTimeEngine(item.ServiceID));
+                    itemActualResources = InventoryCounter(item.ClinicID,item.ServiceID);
                     if (initialEfficientResources < actualResources && itemEfficientResources < itemActualResources)
                     {
                         Console.WriteLine("preferred location");
-                        //possibly go with less
                     }
                     else if(initialEfficientResources == actualResources && itemEfficientResources == itemActualResources)
                     {
-                        Console.WriteLine("--Use location here--");
+                        Console.WriteLine("--compare location here--"); //www.aspsnippets.com/Articles/ASPNet-Core-Implement-Google-Maps-from-Database-in-Net-Core.aspx
+                        //send to view for comparison
+                        ViewBag.Test = "Initial:" + appointment.ServiceID + " " + "Suggest:" + item.ServiceID;
                     }
                     else if (initialEfficientResources > actualResources && itemEfficientResources <= itemActualResources)
                     {
                         Console.WriteLine("--choose item--");
+                        bestTaktTimeClinicId = item.ClinicID;
                     }
                     else if (initialEfficientResources <= actualResources && itemEfficientResources > itemActualResources)
                     {
                         Console.WriteLine("--choose initial--");
+                        
                     }
                 }
             }
-            //choose the one with the units of resources or higher with service needed(could throw in location) - ignore
 
             //**return best clinic along with best time to modal. if yes, replace appointmentschedule and clinic. if no, keep the appointment**
             
-
-            if (ModelState.IsValid)
-            {
-                _context.Add(appointment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            //-------- For DB Storage ------------------
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(appointment);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
             return View(appointment);
         }
 
