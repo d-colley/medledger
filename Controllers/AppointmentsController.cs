@@ -70,13 +70,13 @@ namespace MedLedger.Controllers
 
             int initialTaktTime = TaktTimeEngine(appointment.ServiceID);
 
-            int initialResources = ResourcesEngine(appointment.ServiceID, initialTaktTime);
+            int initialEfficientResources = ResourcesEngine(appointment.ServiceID, initialTaktTime);
 
              
 
             int bestTaktTime = initialTaktTime;
             int bestTaktTimeClinicId = appointment.ServiceID;
-
+            int actualResources = InventoryCounter(appointment.ClinicID, appointment.ServiceID);
             //if two clinics are the same Takt time, we use location
 
             //service time (standard service time per health region)(based on procedure)
@@ -86,7 +86,7 @@ namespace MedLedger.Controllers
 
             //Run this function for the various health centres
             //for (int i=0; i< _context.Clinics.Count();i++)
-            var schedule = _context.ServiceSchedules.Where(t=> t.ServiceName == appointment.AppointmentService).FirstOrDefault();
+            var schedule = _context.ServiceSchedules.Where(t=> t.ServiceName == appointment.AppointmentService);
             foreach(var item in _context.ServiceSchedules)
             {
                 Console.WriteLine(item.ServiceID);
@@ -98,9 +98,26 @@ namespace MedLedger.Controllers
 
                 else if (bestTaktTime == TaktTimeEngine(item.ServiceID))
                 {
-                    Console.WriteLine("--Use location here--");
-                    //compare resources
-                    //compare locations and choose the best one
+                    //resource count check
+                    int itemEfficientResources = ResourcesEngine(item.ServiceID, TaktTimeEngine(item.ServiceID));
+                    int itemActualResources = InventoryCounter(item.ClinicID,item.ServiceID);
+                    if (initialEfficientResources < actualResources && itemEfficientResources < itemActualResources)
+                    {
+                        Console.WriteLine("preferred location");
+                        //possibly go with less
+                    }
+                    else if(initialEfficientResources == actualResources && itemEfficientResources == itemActualResources)
+                    {
+                        Console.WriteLine("--Use location here--");
+                    }
+                    else if (initialEfficientResources > actualResources && itemEfficientResources <= itemActualResources)
+                    {
+                        Console.WriteLine("--choose item--");
+                    }
+                    else if (initialEfficientResources <= actualResources && itemEfficientResources > itemActualResources)
+                    {
+                        Console.WriteLine("--choose initial--");
+                    }
                 }
             }
             //choose the one with the units of resources or higher with service needed(could throw in location) - ignore
@@ -209,8 +226,8 @@ namespace MedLedger.Controllers
 
             var clinicService = _context.ServiceSchedule.Find(serviceID);
 
-            availableTime = clinicService.CurrentTimeAvailable;
-            patientsToBeServiced = clinicService.CurrentAppointments;
+            availableTime = clinicService.MaxTimeAvailable;
+            patientsToBeServiced = clinicService.MaxAppointments;
 
 
             int TaktTime = 0;
@@ -239,17 +256,17 @@ namespace MedLedger.Controllers
             //in order to reach Takt time, we need r units of resources
             int r = serviceTime / takTIme;
             //check resources
-            int actualResources = InventoryCounter(clinicService.ClinicID,serviceID);
+            //int actualResources = InventoryCounter(clinicService.ClinicID,serviceID);
             
             //if resources <= r
-            if (actualResources >= r)
-            {
-                Console.WriteLine("actual greater than r");
-            }
-            if(actualResources < r)
-            {
-                Console.WriteLine("actual less than effecient resource");
-            }
+            //if (actualResources >= r)
+            //{
+            //    Console.WriteLine("actual greater than r");
+            //}
+            //if(actualResources < r)
+            //{
+            //    Console.WriteLine("actual less than effecient resource");
+            //}
             //recalculate for time based on resources
             //show actual time 
 
