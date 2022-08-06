@@ -71,12 +71,14 @@ namespace MedLedger.Controllers
 
             int initialEfficientResources = ResourcesEngine(appointment.ServiceID, initialTaktTime);
 
-             
+            int actualResources = InventoryCounter(appointment.ClinicID, appointment.ServiceID);
+
+            int initialProfessionalID = appointment.ProfessionalID;
 
             int bestTaktTime = initialTaktTime;
             int bestTaktTimeClinicId = appointment.ClinicID;
             int bestTaktTimeServiceId = appointment.ServiceID;
-            int actualResources = InventoryCounter(appointment.ClinicID, appointment.ServiceID);
+            
             //if two clinics are the same Takt time, we use location
 
             //service time (standard service time per health region)(based on procedure)
@@ -85,7 +87,6 @@ namespace MedLedger.Controllers
             //r = service time/Takt time (approx to nearest whole number)
 
             //Run this function for the various health centres
-            //for (int i=0; i< _context.Clinics.Count();i++)
             var schedules = _context.ServiceSchedules.Where(t=> t.ServiceName == appointment.AppointmentService).ToList();
             schedules.RemoveAll(t => t.ClinicID == appointment.ClinicID);
             int itemEfficientResources = 0;
@@ -117,13 +118,15 @@ namespace MedLedger.Controllers
                     {
                         Console.WriteLine("--compare location here--"); //www.aspsnippets.com/Articles/ASPNet-Core-Implement-Google-Maps-from-Database-in-Net-Core.aspx
                         //send to view for comparison
-                        ViewBag.Test2 = "Initial:" + bestTaktTimeClinicId + " " + "Suggest:" + item.ServiceID + " Choose your location.";
+                        //use preferred instead
+                        //ViewBag.Test2 = "Initial:" + bestTaktTimeClinicId + " " + "Suggest:" + item.ServiceID + " Choose your location.";
                     }
                     else if (initialEfficientResources > actualResources && itemEfficientResources <= itemActualResources)
                     {
                         Console.WriteLine("--choose item--");
                         bestTaktTimeClinicId = item.ClinicID;
-                        bestTaktTimeServiceId= item.ServiceID;
+                        bestTaktTime = TaktTimeEngine(item.ServiceID);
+                        bestTaktTimeServiceId = item.ServiceID;
                         //ViewBag.Test = "New Suggestion: " + bestTaktTimeClinicId;
 
                     }
@@ -133,7 +136,29 @@ namespace MedLedger.Controllers
                         //ViewBag.Test = "Keep it at Clinic " + bestTaktTimeClinicId;
                     }
                 }
-                ViewBag.Test = "Suggested: " + bestTaktTimeClinicId;
+
+                ViewBag.RecommFacility = "Suggested: " + bestTaktTimeClinicId;
+
+                ViewBag.InitialStaff = "<span id='InitialStaff'>" + appointment.ProfessionalID + "</span>";
+                ViewBag.InitialFacility = "<span id='InitialFacility'>" + appointment.ClinicID + "</span>";
+                ViewBag.InitialTaktTime = "<span id='InitialTaktTime'>" + initialTaktTime + "</span>";
+                ViewBag.InitialEfficientResources = "<span id='InitialEfficientResources'>" + initialEfficientResources + "</span>";
+                ViewBag.InitialActualResources = "<span id='InitialActualResources'>" + actualResources + "</span>";
+
+                var serviceDisplayElement = _context.Professionals.Where(t => t.ClinicID == bestTaktTimeClinicId && t.ProfessionalSpecialty == appointment.AppointmentService).FirstOrDefault();
+
+                ViewBag.RecommStaff = "<span id='RecommStaff'>" + serviceDisplayElement.ProfessionalName + "</span>";
+                ViewBag.RecommFacility = "<span id='RecommFacility'>" + bestTaktTimeClinicId + "</span>";
+                ViewBag.RecommTaktTime = "<span id='RecommTaktTime'>" + bestTaktTime + "</span>";
+                ViewBag.RecommEfficientResources = "<span id='RecommEfficientResources'>" + ResourcesEngine(bestTaktTimeServiceId, bestTaktTime) + "</span>";
+                ViewBag.RecommActualResources = "<span id='RecommActualResources'>" + InventoryCounter(bestTaktTimeClinicId, bestTaktTimeServiceId) + "</span>";
+                ViewBag.SaveChanges = "<button type='button' id='useRecomm' class='btn btn-primary' onclick='useRecommendation()'>Use Recommendation</button>";
+
+                //Hidden
+
+                ViewBag.RecommServiceId = "<span id='RecommServiceId'>" + bestTaktTimeServiceId + "</span>";
+                ViewBag.RecommProfessionalId = "<span id='RecommProfessionalId'>" + serviceDisplayElement.ProfessionalID + "</span>";
+
 
             }
 
@@ -147,6 +172,32 @@ namespace MedLedger.Controllers
             //    await _context.SaveChangesAsync();
             //    return RedirectToAction(nameof(Index));
             //}
+            return View(appointment);
+        }
+
+        public async Task<IActionResult> ConfirmCreate([Bind("AppointmentID,AppointmentDate,AppointmentService,AppointmentDescription,ProfessionalID,PatientID,ClinicID,ServiceID")] Appointment appointment)
+        {
+
+            if (ModelState.IsValid)
+            {
+                //check for time availability
+                //var timeAvailability = TimeAvailabilityEngine(appointment.AppointmentDate,appointment.ServiceID);
+                bool timeTest = TimeAvailabilityEngine(appointment.AppointmentDate, appointment.ServiceID);
+                bool profTest = ProfessionalAvailabilityEngine(appointment.ServiceID, appointment.ProfessionalID);
+
+                if(timeTest && profTest)
+                {
+                    _context.Add(appointment);
+                    await _context.SaveChangesAsync();
+                    //increase serviceschedule currentappt number
+                    AddAppointmentToServiceSchedule(appointment.ServiceID);
+                    
+                    return RedirectToAction(nameof(Index));
+                }
+
+                 
+                
+            }
             return View(appointment);
         }
 
@@ -226,6 +277,8 @@ namespace MedLedger.Controllers
         {
             var appointment = await _context.Appointments.FindAsync(id);
             _context.Appointments.Remove(appointment);
+            RemoveAppointmentToServiceSchedule(appointment.ServiceID);
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -319,6 +372,139 @@ namespace MedLedger.Controllers
             
             int trueResources = totalResourceCount/totalResourceElements;
             return trueResources;
+        }
+
+        private bool TimeAvailabilityEngine(DateTime appointmentDate, int serviceID)
+        {
+            var apptDay = (appointmentDate.DayOfWeek).ToString();
+            var apptTime = appointmentDate.TimeOfDay;
+            //find day and time of appointment date
+            var clinicService = _context.ServiceSchedule.Find(serviceID);
+
+            if (apptDay == clinicService.ServiceDays)
+            {
+                Console.WriteLine("check for time");
+                //check current time
+                
+
+                //check next possible time on service day
+                var serviceStartTimeForAddition = clinicService.ServiceStartTime;
+                var serviceStartTime = clinicService.ServiceStartTime.TimeOfDay;
+                var serviceEndTime = clinicService.ServicEndTime.TimeOfDay;
+                //if apptTime between start and end date
+                if((apptTime > serviceStartTime) && (apptTime < serviceEndTime ) || (apptTime == serviceStartTime))
+                {
+                    var currentAppts = clinicService.CurrentAppointments;
+                    var serviceTime = clinicService.ServiceTime;
+
+                    int additionFormat = (currentAppts * serviceTime);
+                    //var additionTimeSpan = new TimeSpan { 0, additionFormat, 00,0 };
+
+                    //start + (currentappt * service time)
+                    var currentApptTime = serviceStartTimeForAddition.AddMinutes(additionFormat);
+                    Console.WriteLine("Got current appointment time");
+
+                    if((apptTime == currentApptTime.TimeOfDay) || (apptTime > currentApptTime.TimeOfDay))
+                    {
+                        Console.WriteLine("Schedule Appointment");
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Submitted time not available");
+                        ViewBag.TimeCorrection = "Time not available. Try any time after: " + currentApptTime.TimeOfDay.ToString();
+                        return false;
+                    }
+
+                }
+                else
+                {
+                    var currentAppts = clinicService.CurrentAppointments;
+                    var serviceTime = clinicService.ServiceTime;
+
+                    int additionFormat = (currentAppts * serviceTime);
+                    //var additionTimeSpan = new TimeSpan { 0, additionFormat, 00,0 };
+
+                    //start + (currentappt * service time)
+                    var currentApptTime = serviceStartTimeForAddition.AddMinutes(additionFormat);
+                    Console.WriteLine("Submitted time not available");
+                    ViewBag.TimeCorrection = "Time not available. Try any time after: " + currentApptTime.TimeOfDay.ToString();
+                    return false;
+                }
+
+
+            }
+            else
+            {
+                Console.WriteLine("Day Not available for this service");
+                ViewBag.DayCorrection = "Day not available for this service";
+                return false;
+            }
+
+
+        }
+
+        private bool ProfessionalAvailabilityEngine(int serviceID, int professionalID)
+        {
+            //check if service and professional correspond with form
+            //get service object
+            //if prof.clinicid = serviceid.clinic and prof.specialty = serviceid.service 
+            var profObject = _context.Professionals.Where(t=> t.ProfessionalID == professionalID).FirstOrDefault();
+            var serviceObject = _context.ServiceSchedules.Find(serviceID);
+
+            //var serviceDisplayElement = _context.Professionals.Where(t => t.ClinicID == bestTaktTimeClinicId && t.ProfessionalSpecialty == appointment.AppointmentService).FirstOrDefault();
+
+
+            if ((profObject.ClinicID == serviceObject.ClinicID) && (profObject.ProfessionalSpecialty == serviceObject.ServiceName))
+            {
+                return true;
+            }
+            else
+            {
+                ViewBag.ProfessionalCorrection = "Professional not tied to clinic" ;
+                return false;
+            }
+
+        }
+
+        private bool AddAppointmentToServiceSchedule(int serviceID)
+        {
+            var serviceSchedule = _context.ServiceSchedules.Find(serviceID);
+            serviceSchedule.CurrentAppointments += 1;
+
+            try
+            {
+                _context.Update(serviceSchedule);
+                _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            
+
+        }
+
+        private bool RemoveAppointmentToServiceSchedule(int serviceID)
+        {
+            var serviceSchedule = _context.ServiceSchedules.Find(serviceID);
+            serviceSchedule.CurrentAppointments -= 1;
+
+            try
+            {
+                _context.Update(serviceSchedule);
+                _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+
+
         }
     }
 }

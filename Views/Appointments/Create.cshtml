@@ -47,11 +47,36 @@
                 <span asp-validation-for="ServiceID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary"/>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Suggest</button>
+                <input type="submit" asp-action="ConfirmCreate" value="Confirm Create" class="btn btn-primary"/>
+                @*<button type="button" value="Create" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="location.href='@Url.Action("Create", "Appointments")'">Suggest</button>*@
+
+@*                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Suggest</button>*@                
+                <button type="submit" class="btn btn-primary" data-toggle="" data-target="">Suggest</button>
 
             </div>
+            <div>@ViewBag.TimeCorrection</div>
+            <div>@ViewBag.DayCorrection</div>
+            <div>@ViewBag.ProfessionalCorrection</div>
         </form>
+    </div>
+    <div class="col-md-4">
+        <div>Initial Staff: @Html.Raw(@ViewBag.InitialStaff)</div>
+        <div>Initial Facility: @Html.Raw(@ViewBag.InitialFacility)</div>
+        <div>Initial TaktTime: @Html.Raw(@ViewBag.InitialTaktTime)</div>
+        <div>Initial Efficient Resources: @Html.Raw(@ViewBag.InitialEfficientResources)</div>
+        <div>Initial Actual Resources: @Html.Raw(@ViewBag.InitialActualResources)</div>
+
+        <div></div>
+
+        <div>Recommended ProfessionalID: @Html.Raw(@ViewBag.RecommProfessionalId)</div>
+        <div>Recommended ServiceID: @Html.Raw(@ViewBag.RecommServiceId)</div>
+        <div>Recommended Staff: @Html.Raw(@ViewBag.RecommStaff)</div>
+        <div>Recommended Facility: @Html.Raw(@ViewBag.RecommFacility)</div>
+        <div>Recommended TaktTime: @Html.Raw(@ViewBag.RecommTaktTime)</div>
+        <div>Recommended Efficient Resources: @Html.Raw(@ViewBag.RecommEfficientResources)</div>
+        <div>Recommended Actual Resources: @Html.Raw(@ViewBag.RecommActualResources)</div>
+        @*@ViewBag.SaveChanges*@
+        @Html.Raw(ViewBag.SaveChanges)
     </div>
 </div>
 
@@ -73,8 +98,6 @@
         <div>Recommended Staff:</div>
         <div>Recommended Facility:</div>
         <div>Time:</div>
-        <div>@ViewBag.Test</div>
-        <div>@ViewBag.Test2</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -83,3 +106,19 @@
     </div>
   </div>
 </div>
+
+<script>
+    //$("#useRecomm").click(useRecommendation);
+
+    function useRecommendation()
+    {
+        //replace professional, clinic,service
+        $("#ProfessionalID").val($("#RecommProfessionalId").text());
+
+        $("#ClinicID").val($("#RecommFacility").text());
+
+        $("#ServiceID").val($("#RecommServiceId").text());
+
+        console.log("Change done.");
+    }
+</script>
