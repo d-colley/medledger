@@ -149,5 +149,36 @@ namespace MedLedger.Controllers
         {
             return _context.Professionals.Any(e => e.ProfessionalID == id);
         }
+
+        private void ProfessionalSchedulingEngine()
+        {
+            //get professional based on ProfessionalID
+            //var schedule = _context.ServiceSchedules.Where(t => t.ServiceID == serviceID).FirstOrDefault();
+            var professionals = _context.Professionals.ToList();
+            var clinics = _context.Clinics.ToList();
+            var serviceSchedulesInNeed = _context.ServiceSchedules.Where(t=>t.ActualResources < t.EfficientResources).ToList();
+            var serviceSchedulesOverProvision = _context.ServiceSchedules.Where(t => t.ActualResources > t.EfficientResources).ToList();
+            var currentClinicID = 0;
+
+            foreach(var clinic in clinics)
+            {
+                currentClinicID = clinic.ClinicID;
+                //get clinic services ofr clinic id
+                var clinicServices = _context.ServiceSchedules.Where(t => t.ClinicID == currentClinicID).ToList();
+                //get docs
+                var clinicDoctors = _context.Professionals.Where(t => t.ClinicID == currentClinicID).ToList();
+
+                var clinicDocCount = clinicDoctors.Count();
+
+                //check for deficiency in all services
+
+            }
+            //check their clinicID
+            //check # specialists for clinic, check efficient resources
+            //if clinic prof # is over efficient #
+            //check the professional exp for likelihood of leaving (<5 yrs )
+            //get best candidates and pair with underserved clinics
+            //return list of suggestions (at least 5)
+        }
     }
 }

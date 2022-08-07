@@ -17,5 +17,7 @@ namespace MedLedger.Models
         public string ClinicLocation { get; set; }
         public string ClinicType { get; set; }
         public string ClinicServices { get; set; }
+        public bool ClinicOverprovision { get; set; }
+        public bool ClinicUnderprovision { get; set; }
     }
 }
