@@ -1,0 +1,58 @@
+@model MedLedger.Models.Appointment
+
+@{
+    ViewData["Title"] = "Create an Appointment";
+}
+
+
+<h4>Appointment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        Appointment Made
+    </div>
+   
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Recommendation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>Recommended Staff:</div>
+        <div>Recommended Facility:</div>
+        <div>Time:</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    //$("#useRecomm").click(useRecommendation);
+
+    function useRecommendation()
+    {
+        //replace professional, clinic,service
+        $("#ProfessionalID").val($("#RecommProfessionalId").text());
+
+        $("#ClinicID").val($("#RecommFacility").text());
+
+        $("#ServiceID").val($("#RecommServiceId").text());
+
+        console.log("Change done.");
+    }
+</script>

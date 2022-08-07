@@ -1,17 +1,10 @@
 @model IEnumerable<MedLedger.Models.ServiceSchedule>
 
 @{
-    Layout = null;
+   ViewData["Title"] = "Service Schedule";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -29,6 +22,36 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ServicEndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClinicID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentAppointments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxAppointments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentTimeAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxTimeAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EfficientTaktTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualTaktTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EfficientResources)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualResources)
             </th>
             <th></th>
         </tr>
@@ -49,6 +72,36 @@
                 @Html.DisplayFor(modelItem => item.ServicEndTime)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.ClinicID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentAppointments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxAppointments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentTimeAvailable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxTimeAvailable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EfficientTaktTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualTaktTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EfficientResources)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualResources)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.ServiceID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ServiceID">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ServiceID">Delete</a>
@@ -57,5 +110,3 @@
 }
     </tbody>
 </table>
-</body>
-</html>

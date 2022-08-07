@@ -187,18 +187,18 @@ namespace MedLedger.Controllers
 
                 if(timeTest && profTest)
                 {
+                    
                     _context.Add(appointment);
                     await _context.SaveChangesAsync();
                     //increase serviceschedule currentappt number
                     AddAppointmentToServiceSchedule(appointment.ServiceID);
-                    
-                    return RedirectToAction(nameof(Index));
+                    //return RedirectToAction(nameof(Index));
                 }
 
                  
                 
             }
-            return View(appointment);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Appointments/Edit/5
@@ -277,9 +277,10 @@ namespace MedLedger.Controllers
         {
             var appointment = await _context.Appointments.FindAsync(id);
             _context.Appointments.Remove(appointment);
+            await _context.SaveChangesAsync();
             RemoveAppointmentToServiceSchedule(appointment.ServiceID);
 
-            await _context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
@@ -288,7 +289,7 @@ namespace MedLedger.Controllers
             return _context.Appointments.Any(e => e.AppointmentID == id);
         }
 
-        private int TaktTimeEngine(int serviceID)
+        private  int TaktTimeEngine(int serviceID)
         {
             int availableTime = 0;
             int patientsToBeServiced = 0;
@@ -310,7 +311,10 @@ namespace MedLedger.Controllers
             {
                 TaktTime = availableTime / patientsToBeServiced;
             }
-            
+
+            clinicService.ActualTaktTime = TaktTime;
+            _context.Update(clinicService);
+            _context.SaveChanges();
 
             return TaktTime;
         }
@@ -326,7 +330,7 @@ namespace MedLedger.Controllers
             int r = serviceTime / takTIme;
             //check resources
             //int actualResources = InventoryCounter(clinicService.ClinicID,serviceID);
-            
+
             //if resources <= r
             //if (actualResources >= r)
             //{
@@ -343,8 +347,10 @@ namespace MedLedger.Controllers
             //use current time
 
             //store in DB(serviceschedule)
+            clinicService.EfficientResources = r;
+            _context.Update(clinicService);
+            _context.SaveChanges();
 
-            
             return r;
         }
 
@@ -371,6 +377,10 @@ namespace MedLedger.Controllers
             }
             
             int trueResources = totalResourceCount/totalResourceElements;
+
+            schedule.ActualResources = trueResources;
+            _context.Update(schedule);
+            _context.SaveChanges();
             return trueResources;
         }
 
@@ -467,41 +477,33 @@ namespace MedLedger.Controllers
 
         }
 
-        private bool AddAppointmentToServiceSchedule(int serviceID)
+        private void AddAppointmentToServiceSchedule(int serviceID)
         {
             var serviceSchedule = _context.ServiceSchedules.Find(serviceID);
             serviceSchedule.CurrentAppointments += 1;
-
-            try
-            {
+            serviceSchedule.CurrentTimeAvailable -= serviceSchedule.ServiceTime;
+            
                 _context.Update(serviceSchedule);
-                _context.SaveChangesAsync();
-                return true;
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
-
+                _context.SaveChanges();
+                //return true;
+            
+            
             
 
         }
 
-        private bool RemoveAppointmentToServiceSchedule(int serviceID)
+        private void RemoveAppointmentToServiceSchedule(int serviceID)
         {
             var serviceSchedule = _context.ServiceSchedules.Find(serviceID);
             serviceSchedule.CurrentAppointments -= 1;
+            serviceSchedule.CurrentTimeAvailable += serviceSchedule.ServiceTime;
 
-            try
-            {
+            
                 _context.Update(serviceSchedule);
-                _context.SaveChangesAsync();
-                return true;
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
+                _context.SaveChanges();
+                //return true;
+            
+            
 
 
 
