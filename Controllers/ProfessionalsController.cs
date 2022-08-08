@@ -22,6 +22,55 @@ namespace MedLedger.Controllers
         // GET: Professionals
         public async Task<IActionResult> Index()
         {
+            //get professional based on ProfessionalID
+            //var schedule = _context.ServiceSchedules.Where(t => t.ServiceID == serviceID).FirstOrDefault();
+            var professionals = _context.Professionals.ToList();
+            var clinics = _context.Clinics.ToList();
+            var serviceSchedulesInNeed = _context.ServiceSchedules.Where(t => t.ActualResources < t.EfficientResources).ToList();
+            var serviceSchedulesOverProvision = _context.ServiceSchedules.Where(t => t.ActualResources > t.EfficientResources).ToList();
+            var currentClinicID = 0;
+
+            var docArrayForEmptyClinics = new List<Tuple<string,int>>(){ };
+
+            foreach (var clinic in clinics)
+            {
+                currentClinicID = clinic.ClinicID;
+                //get clinic services ofr clinic id
+                var clinicServices = _context.ServiceSchedules.Where(t => t.ClinicID == currentClinicID).ToList();
+                //get docs
+                var clinicDoctors = _context.Professionals.Where(t => t.ClinicID == currentClinicID).ToList();
+
+                var clinicDocCount = clinicDoctors.Count();
+
+
+
+                //check for deficiency in all services for the clinic
+                foreach (var item in clinicServices)
+                {
+                    var serviceName = item.ServiceName;
+                    var serviceClinicID = item.ClinicID;
+                    var docCount = clinicDoctors.Where(t => t.ClinicID == item.ClinicID && t.ProfessionalSpecialty == serviceName).Count();
+                    if (docCount == 0)
+                    {
+                        docArrayForEmptyClinics.Add(new Tuple<string, int>(serviceName, serviceClinicID));
+                        //array = array.Concat(new int[] { 2 }).ToArray();
+                    }
+                }
+                Console.WriteLine(docArrayForEmptyClinics.ToString());
+            }
+
+            Console.WriteLine(docArrayForEmptyClinics);
+            ViewBag.ClinicsWithNoDoctor = docArrayForEmptyClinics.ToString();
+            //return View(professional);
+            //return RedirectToAction(nameof(Index));
+            //return Task.FromResult(RedirectToAction(nameof(Index)));
+            //check their clinicID
+            //check # specialists for clinic, check efficient resources
+            //if clinic prof # is over efficient #
+            //check the professional exp for likelihood of leaving (<5 yrs )
+            //get best candidates and pair with underserved clinics
+            //return list of suggestions (at least 5)
+
             return View(await _context.Professionals.ToListAsync());
         }
 
@@ -150,17 +199,34 @@ namespace MedLedger.Controllers
             return _context.Professionals.Any(e => e.ProfessionalID == id);
         }
 
-        private void ProfessionalSchedulingEngine()
+        private async Task<IActionResult> Test()
+        {
+            
+            return View();
+            //return RedirectToAction(nameof(Index));
+            //return Task.FromResult(RedirectToAction(nameof(Index)));
+            //check their clinicID
+            //check # specialists for clinic, check efficient resources
+            //if clinic prof # is over efficient #
+            //check the professional exp for likelihood of leaving (<5 yrs )
+            //get best candidates and pair with underserved clinics
+            //return list of suggestions (at least 5)
+        }
+
+        [HttpPost]
+        private async Task<IActionResult> ProfessionalSchedulingEngine(Professional professional)
         {
             //get professional based on ProfessionalID
             //var schedule = _context.ServiceSchedules.Where(t => t.ServiceID == serviceID).FirstOrDefault();
             var professionals = _context.Professionals.ToList();
             var clinics = _context.Clinics.ToList();
-            var serviceSchedulesInNeed = _context.ServiceSchedules.Where(t=>t.ActualResources < t.EfficientResources).ToList();
+            var serviceSchedulesInNeed = _context.ServiceSchedules.Where(t => t.ActualResources < t.EfficientResources).ToList();
             var serviceSchedulesOverProvision = _context.ServiceSchedules.Where(t => t.ActualResources > t.EfficientResources).ToList();
             var currentClinicID = 0;
 
-            foreach(var clinic in clinics)
+            int[] docArrayForEmptyClinics = new int[] { };
+
+            foreach (var clinic in clinics)
             {
                 currentClinicID = clinic.ClinicID;
                 //get clinic services ofr clinic id
@@ -170,9 +236,25 @@ namespace MedLedger.Controllers
 
                 var clinicDocCount = clinicDoctors.Count();
 
-                //check for deficiency in all services
 
+
+                //check for deficiency in all services for the clinic
+                foreach (var item in clinicServices)
+                {
+                    var serviceName = item.ServiceName;
+                    var docCount = clinicDoctors.Where(t => t.ClinicID == item.ClinicID && t.ProfessionalSpecialty == serviceName).Count();
+                    if (docCount == 0)
+                    {
+                        docArrayForEmptyClinics.Append(item.ClinicID);
+                    }
+                }
+                Console.WriteLine(docArrayForEmptyClinics);
             }
+
+            Console.WriteLine(docArrayForEmptyClinics);
+            return View(professional);
+            //return RedirectToAction(nameof(Index));
+            //return Task.FromResult(RedirectToAction(nameof(Index)));
             //check their clinicID
             //check # specialists for clinic, check efficient resources
             //if clinic prof # is over efficient #

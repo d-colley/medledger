@@ -71,7 +71,10 @@
 <div>
     Scheduling Recommendations:
     <div>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Suggest</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Schedule</button>
+        <input type="button" value="Create" asp-action="Test" />
+        @Html.ActionLink("Suggest", "Test", "Professionals")
+            @*<input type="button" href="Professionals/ProfessionalSchedulingEngine" class="btn btn-primary"/>*@
+            @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Schedule</button>*@
+        @ViewBag.ClinicsWithNoDoctor
     </div>
 </div>
