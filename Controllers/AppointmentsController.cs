@@ -97,7 +97,7 @@ namespace MedLedger.Controllers
             {
                 Console.WriteLine("Iteration Item clinic ID: " + item.ClinicID);
                 Console.WriteLine("Iteration Item service ID: " + item.ServiceID);
-                if (bestTaktTime < TaktTimeEngine(item.ServiceID)) //new item has higher processing time
+                if (bestTaktTime > TaktTimeEngine(item.ServiceID)) //new item has higher processing time
                 {
                     bestTaktTimeClinicId = item.ClinicID;
                     bestTaktTime = TaktTimeEngine(item.ServiceID);
@@ -139,16 +139,31 @@ namespace MedLedger.Controllers
 
                 ViewBag.RecommFacility = "Suggested: " + bestTaktTimeClinicId;
 
+                //ViewBag.InitialStaff = "<span id='InitialStaff'>" + appointment.ProfessionalID + "</span>";
+                //ViewBag.InitialFacility = "<span id='InitialFacility'>" + appointment.ClinicID + "</span>";
+                //ViewBag.InitialTaktTime = "<span id='InitialTaktTime'>" + initialTaktTime + "</span>";
+                //ViewBag.InitialEfficientResources = "<span id='InitialEfficientResources'>" + initialEfficientResources + "</span>";
+                //ViewBag.InitialActualResources = "<span id='InitialActualResources'>" + actualResources + "</span>";
+
+                var serviceDisplayElement1 = _context.Professionals.Where(t => t.ProfessionalID == appointment.ProfessionalID).FirstOrDefault();
+                var serviceDisplayClinic1 = _context.Clinics.Where(t => t.ClinicID == appointment.ClinicID).FirstOrDefault();
+
                 ViewBag.InitialStaff = "<span id='InitialStaff'>" + appointment.ProfessionalID + "</span>";
                 ViewBag.InitialFacility = "<span id='InitialFacility'>" + appointment.ClinicID + "</span>";
                 ViewBag.InitialTaktTime = "<span id='InitialTaktTime'>" + initialTaktTime + "</span>";
+                ViewBag.InitialStaffName = "<span id='InitialStaff'>" + serviceDisplayElement1.ProfessionalName + "</span>";
+                ViewBag.InitialFacilityName = "<span id='InitialStaff'>" + serviceDisplayClinic1.ClinicName + "</span>";
                 ViewBag.InitialEfficientResources = "<span id='InitialEfficientResources'>" + initialEfficientResources + "</span>";
                 ViewBag.InitialActualResources = "<span id='InitialActualResources'>" + actualResources + "</span>";
 
+                //use serviceDisplayElement for the decode
                 var serviceDisplayElement = _context.Professionals.Where(t => t.ClinicID == bestTaktTimeClinicId && t.ProfessionalSpecialty == appointment.AppointmentService).FirstOrDefault();
+                var serviceDisplayClinic = _context.Clinics.Where(t=> t.ClinicID == bestTaktTimeClinicId).FirstOrDefault();
 
                 ViewBag.RecommStaff = "<span id='RecommStaff'>" + serviceDisplayElement.ProfessionalName + "</span>";
-                ViewBag.RecommFacility = "<span id='RecommFacility'>" + bestTaktTimeClinicId + "</span>";
+                //ViewBag.RecommFacility = "<span id='RecommFacility'>" + bestTaktTimeClinicId + "</span>";
+                ViewBag.RecommClinicId = "<span id='RecommClinicId'>" + serviceDisplayClinic.ClinicID + "</span>";
+                ViewBag.RecommFacility = "<span id='RecommFacility'>" + serviceDisplayClinic.ClinicName + "</span>";
                 ViewBag.RecommTaktTime = "<span id='RecommTaktTime'>" + bestTaktTime + "</span>";
                 ViewBag.RecommEfficientResources = "<span id='RecommEfficientResources'>" + ResourcesEngine(bestTaktTimeServiceId, bestTaktTime) + "</span>";
                 ViewBag.RecommActualResources = "<span id='RecommActualResources'>" + InventoryCounter(bestTaktTimeClinicId, bestTaktTimeServiceId) + "</span>";

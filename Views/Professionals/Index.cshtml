@@ -71,13 +71,13 @@
 <div>
     Scheduling Recommendations:
     <div>
-        <input type="button" value="Create" asp-action="Test" />
-        @Html.ActionLink("Suggest", "Test", "Professionals")
+        @*<input type="button" value="Create" asp-action="Test" />
+        @Html.ActionLink("Suggest", "Test", "Professionals")*@
             @*<input type="button" href="Professionals/ProfessionalSchedulingEngine" class="btn btn-primary"/>*@
             @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Schedule</button>*@
 @*        @ViewBag.ClinicsWithNoDoctor
 *@
-        <div> 
+       @* <div> 
                <span> Service</span> <span> Clinic ID</span> <span> Recomm. Prof ID</span>
         </div>
         @foreach (var item in ViewBag.ClinicsWithNoDoctor)
@@ -86,6 +86,43 @@
                <span> @item.Item1 </span> <span> @item.Item2</span> <span> @item.Item3</span> <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Suggest</button>
            </div>
         }
+*@
+        <table class="table">
+    <thead>
+        <tr>
+            <th>
+                Service
+            </th>
+            <th>
+                Clinic ID
+            </th>
+            <th>
+                Recomm. Prof ID
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in ViewBag.ClinicsWithNoDoctor) {
+        <tr>
+            <td>
+                @item.Item1
+            </td>
+            <td>
+                @item.Item2
+            </td>
+            <td>
+                @item.Item3
+            </td>
+            <td>
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Suggest</button>
+            </td>
+            
+            
+        </tr>
+}
+    </tbody>
+</table>
     </div>
 </div>
 

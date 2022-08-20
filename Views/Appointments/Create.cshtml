@@ -36,6 +36,13 @@
                 <input asp-for="PatientID" class="form-control" />
                 <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
+
+            @*address placeholder*@
+            <div class="form-group">
+                <label  class="control-label">PatientAddress</label>
+                <input  class="form-control" />
+                
+            </div>
             <div class="form-group">
                 <label asp-for="ClinicID" class="control-label"></label>
                 <input asp-for="ClinicID" class="form-control" />
@@ -63,20 +70,24 @@
         <div>Initial Selection:</div>
         <div>Initial Staff: @Html.Raw(@ViewBag.InitialStaff)</div>
         <div>Initial Facility: @Html.Raw(@ViewBag.InitialFacility)</div>
-        <div>Initial TaktTime: @Html.Raw(@ViewBag.InitialTaktTime)</div>
-        <div>Initial Efficient Resources: @Html.Raw(@ViewBag.InitialEfficientResources)</div>
-        <div>Initial Actual Resources: @Html.Raw(@ViewBag.InitialActualResources)</div>
+        <div>Initial Staff: @Html.Raw(@ViewBag.InitialStaffName)</div>
+        <div>Initial Facility: @Html.Raw(@ViewBag.InitialFacilityName)</div>
+        <div>Initial TaktTime: @Html.Raw(@ViewBag.InitialTaktTime) minutes/patient</div>
+        <div>Initial Efficient Resources: @Html.Raw(@ViewBag.InitialEfficientResources) resource units</div>
+        <div>Initial Actual Resources: @Html.Raw(@ViewBag.InitialActualResources) resource units</div>
 
         <div></div>
+        <br />
 
         <div>Recommendation:</div>
         <div>Recommended ProfessionalID: @Html.Raw(@ViewBag.RecommProfessionalId)</div>
         <div>Recommended ServiceID: @Html.Raw(@ViewBag.RecommServiceId)</div>
+        <div>Recommended ClinicID: @Html.Raw(@ViewBag.RecommClinicId)</div>
         <div>Recommended Staff: @Html.Raw(@ViewBag.RecommStaff)</div>
         <div>Recommended Facility: @Html.Raw(@ViewBag.RecommFacility)</div>
-        <div>Recommended TaktTime: @Html.Raw(@ViewBag.RecommTaktTime)</div>
-        <div>Recommended Efficient Resources: @Html.Raw(@ViewBag.RecommEfficientResources)</div>
-        <div>Recommended Actual Resources: @Html.Raw(@ViewBag.RecommActualResources)</div>
+        <div>Recommended TaktTime: @Html.Raw(@ViewBag.RecommTaktTime) minutes/patient</div>
+        <div>Recommended Efficient Resources: @Html.Raw(@ViewBag.RecommEfficientResources) resource units</div>
+        <div>Recommended Actual Resources: @Html.Raw(@ViewBag.RecommActualResources) resource units</div>
         @*@ViewBag.SaveChanges*@
         @Html.Raw(ViewBag.SaveChanges)
     </div>
@@ -117,7 +128,7 @@
         //replace professional, clinic,service
         $("#ProfessionalID").val($("#RecommProfessionalId").text());
 
-        $("#ClinicID").val($("#RecommFacility").text());
+        $("#ClinicID").val($("#RecommClinicId").text());
 
         $("#ServiceID").val($("#RecommServiceId").text());
 
