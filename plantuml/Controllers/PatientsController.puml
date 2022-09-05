@@ -1,0 +1,14 @@
+@startuml
+class PatientsController {
+    + PatientsController(context:MedLedgerDBContext)
+    + <<async>> Index() : Task<IActionResult>
+    + <<async>> Details(id:int?) : Task<IActionResult>
+    + Create() : IActionResult
+    + <<async>> Create(patient:Patient) : Task<IActionResult>
+    + <<async>> Edit(id:int?) : Task<IActionResult>
+    + <<async>> Edit(id:int, patient:Patient) : Task<IActionResult>
+    + <<async>> Delete(id:int?) : Task<IActionResult>
+    + <<async>> DeleteConfirmed(id:int) : Task<IActionResult>
+}
+Controller <|-- PatientsController
+@enduml

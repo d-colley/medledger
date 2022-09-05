@@ -1,0 +1,5 @@
+@startuml
+class FixingCreate_002 <<partial>> {
+}
+Migration <|-- FixingCreate_002
+@enduml

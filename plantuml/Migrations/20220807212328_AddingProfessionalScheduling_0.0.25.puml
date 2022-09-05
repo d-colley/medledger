@@ -1,0 +1,5 @@
+@startuml
+class AddingProfessionalScheduling_0025 <<partial>> {
+}
+Migration <|-- AddingProfessionalScheduling_0025
+@enduml

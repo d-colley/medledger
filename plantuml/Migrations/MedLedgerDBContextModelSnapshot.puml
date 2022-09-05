@@ -1,0 +1,5 @@
+@startuml
+class MedLedgerDBContextModelSnapshot <<partial>> {
+}
+ModelSnapshot <|-- MedLedgerDBContextModelSnapshot
+@enduml

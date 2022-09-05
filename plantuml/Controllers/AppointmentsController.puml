@@ -1,0 +1,15 @@
+@startuml
+class AppointmentsController {
+    + AppointmentsController(context:MedLedgerDBContext)
+    + <<async>> Index() : Task<IActionResult>
+    + <<async>> Details(id:int?) : Task<IActionResult>
+    + Create() : IActionResult
+    + <<async>> Create(appointment:Appointment) : Task<IActionResult>
+    + <<async>> ConfirmCreate(appointment:Appointment) : Task<IActionResult>
+    + <<async>> Edit(id:int?) : Task<IActionResult>
+    + <<async>> Edit(id:int, appointment:Appointment) : Task<IActionResult>
+    + <<async>> Delete(id:int?) : Task<IActionResult>
+    + <<async>> DeleteConfirmed(id:int) : Task<IActionResult>
+}
+Controller <|-- AppointmentsController
+@enduml

@@ -1,0 +1,4 @@
+@startuml
+class AddingClinicIDToAppointment_009 <<partial>> {
+}
+@enduml

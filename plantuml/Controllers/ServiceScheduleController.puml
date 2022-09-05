@@ -1,0 +1,14 @@
+@startuml
+class ServiceScheduleController {
+    + ServiceScheduleController(context:MedLedgerDBContext)
+    + <<async>> Index() : Task<IActionResult>
+    + <<async>> Details(id:int?) : Task<IActionResult>
+    + Create() : IActionResult
+    + <<async>> Create(serviceSchedule:ServiceSchedule) : Task<IActionResult>
+    + <<async>> Edit(id:int?) : Task<IActionResult>
+    + <<async>> Edit(id:int, serviceSchedule:ServiceSchedule) : Task<IActionResult>
+    + <<async>> Delete(id:int?) : Task<IActionResult>
+    + <<async>> DeleteConfirmed(id:int) : Task<IActionResult>
+}
+Controller <|-- ServiceScheduleController
+@enduml

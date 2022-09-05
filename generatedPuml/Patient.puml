@@ -1,0 +1,13 @@
+@startuml
+class Patient {
+    + PatientID : int <<get>> <<set>>
+    + PatientName : string <<get>> <<set>>
+    + PatientAddress : string <<get>> <<set>>
+    + PatientPhoneNumber : int <<get>> <<set>>
+    + PatientEmail : string <<get>> <<set>>
+    + PatientInsuranceProvider : string <<get>> <<set>>
+    + Purpose : string <<get>> <<set>>
+    + UserID : int <<get>> <<set>>
+}
+Patient --> "PatientDOB" DateTime
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+class Professional {
+    + ProfessionalID : int <<get>> <<set>>
+    + ProfessionalName : string <<get>> <<set>>
+    + ProfessionalEmail : string <<get>> <<set>>
+    + ProfessionalSpecialty : string <<get>> <<set>>
+    + ProfessionalExpYears : int <<get>> <<set>>
+    + UserID : int <<get>> <<set>>
+    + ClinicID : int <<get>> <<set>>
+    + TeamID : string <<get>> <<set>>
+}
+@enduml

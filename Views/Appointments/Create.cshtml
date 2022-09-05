@@ -5,7 +5,7 @@
 }
 
 
-<h4>Appointment</h4>
+<h4>New Appointment</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -44,9 +44,25 @@
                 
             </div>
             <div class="form-group">
-                <label asp-for="ClinicID" class="control-label"></label>
-                <input asp-for="ClinicID" class="form-control" />
+                <label  class="control-label">Clinic</label>
+                @*<label asp-for="ClinicID" class="control-label"></label>*@
+                @*<input asp-for="ClinicID" class="form-control" />*@
+                <select asp-for="ClinicID" class="form-control">
+                    <option selected="selected" value=""></option>
+
+                    <option value="2">Princess Margaret Hospital</option>
+
+                    <option value="3">Spanish Town Hospital</option>
+
+                    <option value="4">Kingston Public Hospital</option>
+
+                    <option value="5">Victoria Jubilee Hospital</option>
+
+                    <option value="6">UHWI</option>
+
+                </select>
                 <span asp-validation-for="ClinicID" class="text-danger"></span>
+
             </div>
             <div class="form-group">
                 <label asp-for="ServiceID" class="control-label"></label>
@@ -66,8 +82,8 @@
             <div>@ViewBag.ProfessionalCorrection</div>
         </form>
     </div>
-    <div class="col-md-4">
-        <div>Initial Selection:</div>
+    <div class="col-md-5">
+        <div style="font-weight:bold;">Initial Selection:</div>
         <div>Initial Staff: @Html.Raw(@ViewBag.InitialStaff)</div>
         <div>Initial Facility: @Html.Raw(@ViewBag.InitialFacility)</div>
         <div>Initial Staff: @Html.Raw(@ViewBag.InitialStaffName)</div>
@@ -79,7 +95,7 @@
         <div></div>
         <br />
 
-        <div>Recommendation:</div>
+        <div style="font-weight: bold;">Recommendation:</div>
         <div>Recommended ProfessionalID: @Html.Raw(@ViewBag.RecommProfessionalId)</div>
         <div>Recommended ServiceID: @Html.Raw(@ViewBag.RecommServiceId)</div>
         <div>Recommended ClinicID: @Html.Raw(@ViewBag.RecommClinicId)</div>
@@ -120,8 +136,15 @@
   </div>
 </div>
 
+<div id="overlay" style="display:none;">
+    <div class="spinner"></div>
+    <br/>
+    Loading...
+</div>
+
 <script>
     //$("#useRecomm").click(useRecommendation);
+    
 
     function useRecommendation()
     {
@@ -134,4 +157,5 @@
 
         console.log("Change done.");
     }
+
 </script>

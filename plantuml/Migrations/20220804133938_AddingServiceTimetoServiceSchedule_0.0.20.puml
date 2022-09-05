@@ -1,0 +1,5 @@
+@startuml
+class AddingServiceTimetoServiceSchedule_0020 <<partial>> {
+}
+Migration <|-- AddingServiceTimetoServiceSchedule_0020
+@enduml

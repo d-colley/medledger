@@ -1,0 +1,9 @@
+@startuml
+class Inventory {
+    + InventoryID : int <<get>> <<set>>
+    + InventoryName : string <<get>> <<set>>
+    + InventoryLevel : int <<get>> <<set>>
+    + ClinicID : int <<get>> <<set>>
+    + InventoryUnit : int <<get>> <<set>>
+}
+@enduml

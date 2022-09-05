@@ -1,0 +1,11 @@
+@startuml
+!include .\\Appointment.puml
+!include .\\Clinic.puml
+!include .\\ErrorViewModel.puml
+!include .\\Inventory.puml
+!include .\\Patient.puml
+!include .\\Professional.puml
+!include .\\ServiceSchedule.puml
+!include .\\Team.puml
+!include .\\User.puml
+@enduml

@@ -1,0 +1,5 @@
+@startuml
+class AddingAutoIncrementIDs_008 <<partial>> {
+}
+Migration <|-- AddingAutoIncrementIDs_008
+@enduml

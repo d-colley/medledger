@@ -1,0 +1,5 @@
+@startuml
+class DbInitializer {
+    + {static} Initialize(context:MedLedgerDBContext) : void
+}
+@enduml

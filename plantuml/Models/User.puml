@@ -1,0 +1,12 @@
+@startuml
+class User {
+    + UserID : int <<get>> <<set>>
+    + FirstName : string <<get>> <<set>>
+    + LastName : string <<get>> <<set>>
+    + UserRassword : string <<get>> <<set>>
+    + UserRole : string <<get>> <<set>>
+    + FullName : string <<get>>
+}
+IdentityUser <|-- User
+User --> "Created" DateTime
+@enduml

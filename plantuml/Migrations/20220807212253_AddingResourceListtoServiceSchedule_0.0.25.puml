@@ -1,0 +1,5 @@
+@startuml
+class AddingResourceListtoServiceSchedule_0025 <<partial>> {
+}
+Migration <|-- AddingResourceListtoServiceSchedule_0025
+@enduml

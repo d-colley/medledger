@@ -1,0 +1,5 @@
+@startuml
+class AddingTaktTimeandResourcesMeasuresaandResourceUnits_0021 <<partial>> {
+}
+Migration <|-- AddingTaktTimeandResourcesMeasuresaandResourceUnits_0021
+@enduml

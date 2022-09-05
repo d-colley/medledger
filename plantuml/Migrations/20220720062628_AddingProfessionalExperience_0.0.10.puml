@@ -1,0 +1,5 @@
+@startuml
+class AddingProfessionalExperience_0010 <<partial>> {
+}
+Migration <|-- AddingProfessionalExperience_0010
+@enduml

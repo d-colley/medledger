@@ -32,16 +32,16 @@ function initialize() {
     var infoWindowContent = [
         ['<div class="info_content">' +
             '<h3>UHWI</h3>' +
-            '<p>Lorem Ipsum  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>' + '</div>'],
+            '<p></p>' + '</div>'],
         ['<div class="info_content">' +
             '<h3>Princess Margaret</h3>' +
-            '<p>Lorem Ipsum  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>' + '</div>'],
+            '<p></p>' + '</div>'],
         ['<div class="info_content">' +
             '<h3>Spanish Town Public Hospital</h3>' +
-            '<p>Lorem Ipsum  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>' + '</div>'],
+            '<p></p>' + '</div>'],
         ['<div class="info_content">' +
             '<h3>Port Maria Hospital</h3>' +
-            '<p>Lorem Ipsum  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>' + '</div>'],
+            '<p></p>' + '</div>'],
         ['<div class="info_content">' +
             '<h3>Black River</h3>' +
             '<p>Lorem Ipsum  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>' + '</div>'],

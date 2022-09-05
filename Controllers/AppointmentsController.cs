@@ -22,6 +22,8 @@ namespace MedLedger.Controllers
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
+            //Creating listitem for hospitals
+            
             return View(await _context.Appointments.ToListAsync());
         }
 
@@ -167,7 +169,7 @@ namespace MedLedger.Controllers
                 ViewBag.RecommTaktTime = "<span id='RecommTaktTime'>" + bestTaktTime + "</span>";
                 ViewBag.RecommEfficientResources = "<span id='RecommEfficientResources'>" + ResourcesEngine(bestTaktTimeServiceId, bestTaktTime) + "</span>";
                 ViewBag.RecommActualResources = "<span id='RecommActualResources'>" + InventoryCounter(bestTaktTimeClinicId, bestTaktTimeServiceId) + "</span>";
-                ViewBag.SaveChanges = "<button type='button' id='useRecomm' class='btn btn-primary' onclick='useRecommendation()'>Use Recommendation</button>";
+                ViewBag.SaveChanges = "<button type='button' style='margin-top: 20px;' id='useRecomm' class='btn btn-primary' onclick='useRecommendation()'>Use Recommendation</button>";
 
                 //Hidden
 
@@ -178,6 +180,7 @@ namespace MedLedger.Controllers
             }
 
             ViewBag.Test = "Suggested: " + bestTaktTimeClinicId;
+            
             //**return best clinic along with best time to modal. if yes, replace appointmentschedule and clinic. if no, keep the appointment**
 
             //-------- For DB Storage ------------------

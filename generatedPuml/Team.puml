@@ -1,0 +1,7 @@
+@startuml
+class Team {
+    + TeamID : int <<get>> <<set>>
+    + TeamName : string <<get>> <<set>>
+    + ClinicID : int <<get>> <<set>>
+}
+@enduml

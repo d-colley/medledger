@@ -1,0 +1,5 @@
+@startuml
+class TaktTimeEngine_0019 <<partial>> {
+}
+Migration <|-- TaktTimeEngine_0019
+@enduml

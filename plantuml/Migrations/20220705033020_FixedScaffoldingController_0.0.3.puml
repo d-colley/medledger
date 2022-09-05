@@ -1,0 +1,5 @@
+@startuml
+class FixedScaffoldingController_003 <<partial>> {
+}
+Migration <|-- FixedScaffoldingController_003
+@enduml

@@ -1,0 +1,4 @@
+@startuml
+class FixingDBNamingIssues_004 <<partial>> {
+}
+@enduml

@@ -1,0 +1,4 @@
+@startuml
+class AddClinicIDToServiceSchedule_00171 <<partial>> {
+}
+@enduml

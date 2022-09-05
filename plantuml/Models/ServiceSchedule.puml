@@ -1,0 +1,20 @@
+@startuml
+class ServiceSchedule {
+    + ServiceID : int <<get>> <<set>>
+    + ServiceName : string <<get>> <<set>>
+    + ServiceDays : string <<get>> <<set>>
+    + ClinicID : int <<get>> <<set>>
+    + CurrentTimeAvailable : int <<get>> <<set>>
+    + MaxTimeAvailable : int <<get>> <<set>>
+    + MaxAppointments : int <<get>> <<set>>
+    + CurrentAppointments : int <<get>> <<set>>
+    + ServiceTime : int <<get>> <<set>>
+    + EfficientTaktTime : int <<get>> <<set>>
+    + EfficientResources : int <<get>> <<set>>
+    + ActualTaktTime : int <<get>> <<set>>
+    + ActualResources : int <<get>> <<set>>
+    + ResourceList : string <<get>> <<set>>
+}
+ServiceSchedule --> "ServiceStartTime" DateTime
+ServiceSchedule --> "ServicEndTime" DateTime
+@enduml

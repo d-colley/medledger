@@ -1,0 +1,5 @@
+@startuml
+class FixingDBNamingIssues_004 <<partial>> {
+}
+Migration <|-- FixingDBNamingIssues_004
+@enduml

@@ -1,0 +1,5 @@
+@startuml
+class AddingInventoryAppointmentTables_007 <<partial>> {
+}
+Migration <|-- AddingInventoryAppointmentTables_007
+@enduml

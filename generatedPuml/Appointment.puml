@@ -1,0 +1,12 @@
+@startuml
+class Appointment {
+    + AppointmentID : int <<get>> <<set>>
+    + AppointmentService : string <<get>> <<set>>
+    + AppointmentDescription : string <<get>> <<set>>
+    + ProfessionalID : int <<get>> <<set>>
+    + PatientID : int <<get>> <<set>>
+    + ClinicID : int <<get>> <<set>>
+    + ServiceID : int <<get>> <<set>>
+}
+Appointment --> "AppointmentDate" DateTime
+@enduml

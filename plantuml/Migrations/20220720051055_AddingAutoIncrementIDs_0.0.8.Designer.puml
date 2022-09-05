@@ -1,0 +1,4 @@
+@startuml
+class AddingAutoIncrementIDs_008 <<partial>> {
+}
+@enduml

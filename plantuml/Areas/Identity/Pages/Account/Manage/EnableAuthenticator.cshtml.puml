@@ -1,0 +1,16 @@
+@startuml
+class EnableAuthenticatorModel {
+    + EnableAuthenticatorModel(userManager:UserManager<IdentityUser>, logger:ILogger<EnableAuthenticatorModel>, urlEncoder:UrlEncoder)
+    + SharedKey : string <<get>> <<set>>
+    + AuthenticatorUri : string <<get>> <<set>>
+    + StatusMessage : string <<get>> <<set>>
+    + <<async>> OnGetAsync() : Task<IActionResult>
+    + <<async>> OnPostAsync() : Task<IActionResult>
+}
+class InputModel {
+    + Code : string <<get>> <<set>>
+}
+PageModel <|-- EnableAuthenticatorModel
+EnableAuthenticatorModel --> "Input" InputModel
+EnableAuthenticatorModel +-- InputModel
+@enduml

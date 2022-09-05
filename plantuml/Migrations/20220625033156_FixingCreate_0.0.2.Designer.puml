@@ -1,0 +1,4 @@
+@startuml
+class FixingCreate_002 <<partial>> {
+}
+@enduml

@@ -1,0 +1,5 @@
+@startuml
+class AddingScaffoldingViews_005 <<partial>> {
+}
+Migration <|-- AddingScaffoldingViews_005
+@enduml

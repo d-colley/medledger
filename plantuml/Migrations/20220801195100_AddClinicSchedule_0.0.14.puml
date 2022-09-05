@@ -1,0 +1,5 @@
+@startuml
+class AddClinicSchedule_0014 <<partial>> {
+}
+Migration <|-- AddClinicSchedule_0014
+@enduml

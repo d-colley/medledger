@@ -1,0 +1,17 @@
+@startuml
+class MedLedgerDBContext {
+    + MedLedgerDBContext(options:DbContextOptions<MedLedgerDBContext>)
+}
+class "DbSet`1"<T> {
+}
+DbContext <|-- MedLedgerDBContext
+MedLedgerDBContext --> "Appointments<Appointment>" "DbSet`1"
+MedLedgerDBContext --> "Clinics<Clinic>" "DbSet`1"
+MedLedgerDBContext --> "Inventories<Inventory>" "DbSet`1"
+MedLedgerDBContext --> "Patients<Patient>" "DbSet`1"
+MedLedgerDBContext --> "ServiceSchedules<ServiceSchedule>" "DbSet`1"
+MedLedgerDBContext --> "Professionals<Professional>" "DbSet`1"
+MedLedgerDBContext --> "Teams<Team>" "DbSet`1"
+MedLedgerDBContext --> "Users<User>" "DbSet`1"
+MedLedgerDBContext --> "ServiceSchedule<MedLedger.Models.ServiceSchedule>" "DbSet`1"
+@enduml

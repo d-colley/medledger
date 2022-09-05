@@ -1,0 +1,8 @@
+@startuml
+class MedLedgerMVCIdentityDbContext {
+    + MedLedgerMVCIdentityDbContext(options:DbContextOptions<MedLedgerMVCIdentityDbContext>)
+}
+class "IdentityDbContext`1"<T> {
+}
+"IdentityDbContext`1" "<IdentityUser>" <|-- MedLedgerMVCIdentityDbContext
+@enduml

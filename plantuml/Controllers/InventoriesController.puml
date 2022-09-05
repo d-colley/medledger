@@ -1,0 +1,14 @@
+@startuml
+class InventoriesController {
+    + InventoriesController(context:MedLedgerDBContext)
+    + <<async>> Index() : Task<IActionResult>
+    + <<async>> Details(id:int?) : Task<IActionResult>
+    + Create() : IActionResult
+    + <<async>> Create(inventory:Inventory) : Task<IActionResult>
+    + <<async>> Edit(id:int?) : Task<IActionResult>
+    + <<async>> Edit(id:int, inventory:Inventory) : Task<IActionResult>
+    + <<async>> Delete(id:int?) : Task<IActionResult>
+    + <<async>> DeleteConfirmed(id:int) : Task<IActionResult>
+}
+Controller <|-- InventoriesController
+@enduml

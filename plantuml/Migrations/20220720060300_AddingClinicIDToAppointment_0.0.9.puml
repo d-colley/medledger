@@ -1,0 +1,5 @@
+@startuml
+class AddingClinicIDToAppointment_009 <<partial>> {
+}
+Migration <|-- AddingClinicIDToAppointment_009
+@enduml

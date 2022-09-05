@@ -1,0 +1,11 @@
+@startuml Clinic
+class Clinic {
+    + ClinicID : int <<get>> <<set>>
+    + ClinicName : string <<get>> <<set>>
+    + ClinicLocation : string <<get>> <<set>>
+    + ClinicType : string <<get>> <<set>>
+    + ClinicServices : string <<get>> <<set>>
+    + ClinicOverprovision : bool <<get>> <<set>>
+    + ClinicUnderprovision : bool <<get>> <<set>>
+}
+@enduml

@@ -1,0 +1,5 @@
+@startuml
+class AddClinicIDToServiceSchedule_00171 <<partial>> {
+}
+Migration <|-- AddClinicIDToServiceSchedule_00171
+@enduml

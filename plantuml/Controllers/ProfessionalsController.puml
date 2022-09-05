@@ -1,0 +1,14 @@
+@startuml
+class ProfessionalsController {
+    + ProfessionalsController(context:MedLedgerDBContext)
+    + <<async>> Index() : Task<IActionResult>
+    + <<async>> Details(id:int?) : Task<IActionResult>
+    + Create() : IActionResult
+    + <<async>> Create(professional:Professional) : Task<IActionResult>
+    + <<async>> Edit(id:int?) : Task<IActionResult>
+    + <<async>> Edit(id:int, professional:Professional) : Task<IActionResult>
+    + <<async>> Delete(id:int?) : Task<IActionResult>
+    + <<async>> DeleteConfirmed(id:int) : Task<IActionResult>
+}
+Controller <|-- ProfessionalsController
+@enduml

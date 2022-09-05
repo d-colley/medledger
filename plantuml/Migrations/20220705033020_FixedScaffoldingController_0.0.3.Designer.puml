@@ -1,0 +1,4 @@
+@startuml
+class FixedScaffoldingController_003 <<partial>> {
+}
+@enduml

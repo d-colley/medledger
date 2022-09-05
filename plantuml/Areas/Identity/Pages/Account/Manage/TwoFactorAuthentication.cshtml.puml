@@ -1,0 +1,13 @@
+@startuml
+class TwoFactorAuthenticationModel {
+    + TwoFactorAuthenticationModel(userManager:UserManager<IdentityUser>, signInManager:SignInManager<IdentityUser>, logger:ILogger<TwoFactorAuthenticationModel>)
+    + HasAuthenticator : bool <<get>> <<set>>
+    + RecoveryCodesLeft : int <<get>> <<set>>
+    + Is2faEnabled : bool <<get>> <<set>>
+    + IsMachineRemembered : bool <<get>> <<set>>
+    + StatusMessage : string <<get>> <<set>>
+    + <<async>> OnGet() : Task<IActionResult>
+    + <<async>> OnPost() : Task<IActionResult>
+}
+PageModel <|-- TwoFactorAuthenticationModel
+@enduml
